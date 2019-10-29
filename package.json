@@ -1,0 +1,28 @@
+{
+  "name": "translate-browser-validation-text",
+  "version": "1.0.0",
+  "description": "Browser validation text translate. Drupal 8 behavior.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hog-seruj/translate-browser-validation-text.git"
+  },
+  "keywords": [
+    "browser",
+    "validation",
+    "translate",
+    "Drupal",
+    "8",
+    "Vanilla",
+    "js"
+  ],
+  "author": "Sergiy Borodulin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hog-seruj/translate-browser-validation-text/issues"
+  },
+  "homepage": "https://github.com/hog-seruj/translate-browser-validation-text#readme"
+}
