@@ -7,37 +7,49 @@ Drupal.behaviors.formValidationTranslate = {
           fi: 'Ole hyvä ja täydennä kenttä',
           et: 'Palun täida väli',
           en: 'Please fill in this field'
-        }
+        },
+        text: Drupal.t('Please fill in this field'),
+        type: 'text'
       },
       {
-        el: context.querySelectorAll('form-email.required'),
+        el: context.querySelectorAll('.form-email.required'),
         languages: { // Language key must be the same as in Drupal.
           fi: 'Ole hyvä ja täydennä kenttä',
           et: 'Palun täida väli',
           en: 'Please fill in this field'
-        }
+        },
+        text: Drupal.t('Please fill in this field'),
+        type: 'email'
       },
     ];
     for (var i = 0; i < elements.length; i++) {
-      this.init(elements[i].el, elements[i].languages);
+      this.init(elements[i].el, elements[i].text, elements[i].type);
     }
   },
-  init: function (el, languages) {
-    this.translate(el, languages);
+  init: function (el, text, type) {
+    this.customValidation(el, text, type);
   },
   translate: function (el, languages) {
     for (var thisLanguage in languages) {
       if (drupalSettings.path.currentLanguage === thisLanguage) {
-        this.addCustomValidationText(el, languages[thisLanguage]);
+        this.customValidation(el, languages[thisLanguage]);
       }
     }
   },
-  addCustomValidationText: function (elements, text) {
+  customValidation: function (elements, text, type) {
     [].forEach.call(elements, function (el) {
       el.oninvalid = function (e) {
         e.target.setCustomValidity("");
-        if (!e.target.validity.valid) {
+        if (e.target.validity.valueMissing) {
           e.target.setCustomValidity(text);
+        }
+        else if (type === 'email') {
+          let reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          if (!reg.test(String(el.value).toLowerCase())) {
+            let patternText = Drupal.t('Please type correctly the email address, @value not equal email format "name@domain.com".', {'@value': el.value});
+            e.target.setCustomValidity(patternText);
+            inputValue = el.value;
+          }
         }
       };
     });
